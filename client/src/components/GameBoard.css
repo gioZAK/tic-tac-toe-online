@@ -1,0 +1,21 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  grid-gap: 10px;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.cell {
+  width: 80px;
+  height: 80px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.result {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
