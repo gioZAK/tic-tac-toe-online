@@ -14,3 +14,7 @@
 .play-again-btn:hover {
   background-color: #0056b3;
 }
+.game-status {
+  background-color: rgb(255, 255, 0);
+  padding: 0.5rem;
+}
