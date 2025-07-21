@@ -2,18 +2,21 @@
 import './GameBoard.css';
 
 function GameBoard({ gameState, symbol, roomId, socket }) {
+  console.log("🧠 GameBoard received gameState:", gameState);
   const { board, winner, draw, currentTurn } = gameState;
 
   const handleClick = (index) => {
-    // Don't allow moves if:
-    if (
-      board[index] !== null ||     // square is taken
-      winner || draw ||            // game over
-      currentTurn !== symbol       // not your turn
-    ) return;
+    if (!socket || !gameState) return;
+
+    const { board, winner, draw, currentTurn } = gameState;
+
+    if (board[index] !== null) return;
+    if (winner || draw) return;
+    if (currentTurn !== symbol) return;
 
     socket.emit('makeMove', { roomId, index, symbol });
   };
+
 
   return (
     <div>
@@ -29,12 +32,6 @@ function GameBoard({ gameState, symbol, roomId, socket }) {
           </button>
         ))}
       </div>
-
-      {(winner || draw) && (
-        <div className="result">
-          {winner ? `🎉 ${winner} wins!` : '🤝 It\'s a draw!'}
-        </div>
-      )}
     </div>
   );
 }

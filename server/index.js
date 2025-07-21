@@ -69,10 +69,30 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Add this in server/index.js
   socket.on('restartGame', (roomId) => {
-    const result = restartGame(roomId);
-    if (result) {
-      io.to(roomId).emit('gameUpdate', result);
+    const updatedGame = restartGame(roomId);
+    if (updatedGame) {
+      io.to(roomId).emit('gameUpdate', updatedGame);
+
+      const { players, symbols } = updatedGame;
+
+      // Resend playerInfo with updated symbol
+      if (players.playerA && symbols[players.playerA]) {
+        io.to(players.playerA).emit('playerInfo', {
+          roomId,
+          role: 'playerA',
+          symbol: symbols[players.playerA]
+        });
+      }
+
+      if (players.playerB && symbols[players.playerB]) {
+        io.to(players.playerB).emit('playerInfo', {
+          roomId,
+          role: 'playerB',
+          symbol: symbols[players.playerB]
+        });
+      }
     }
   });
 
