@@ -17,4 +17,9 @@
 .game-status {
   background-color: rgb(255, 81, 0);
   padding: 0.5rem;
+  border-radius: 16px;
+  p {
+    font-weight: bold;
+    font-family: sans-serif;
+  }
 }
