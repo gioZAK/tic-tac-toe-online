@@ -1,3 +1,4 @@
+require('dotenv').config(); // Load variables from .env
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
@@ -12,13 +13,16 @@ const {
   cleanupGame
 } = require('./gameManager');
 
+const PORT = process.env.PORT || 3001;
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:3000';
+
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: FRONTEND_ORIGIN }));
 
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: FRONTEND_ORIGIN,
     methods: ['GET', 'POST']
   }
 });
@@ -69,7 +73,6 @@ io.on('connection', (socket) => {
     }
   });
 
-  // Add this in server/index.js
   socket.on('restartGame', (roomId) => {
     const updatedGame = restartGame(roomId);
     if (updatedGame) {
@@ -107,6 +110,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3001, () => {
-  console.log('🚀 Server running on http://localhost:3001');
+server.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

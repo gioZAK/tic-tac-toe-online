@@ -11,6 +11,7 @@ function GameStatus({ gameState, symbol, roomId, socket, role }) {
 
   return (
     <div className="game-status">
+    <p>Room Name: {roomId}</p>
     <p>Score Player A: {gameState.score.playerA} | Player B: {gameState.score.playerB}</p>
     <p>You are: <strong>{role}</strong></p>
       {!winner && !draw && (
