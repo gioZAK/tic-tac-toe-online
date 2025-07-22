@@ -18,7 +18,7 @@ function GameStatus({ gameState, symbol, roomId, socket, role }) {
       )}
 
       {winner && (
-        <p>🎉 <strong>{winner}</strong> wins!</p>
+        <p>🎉 <strong>{winner}</strong> Winner!</p>
       )}
 
       {draw && (
