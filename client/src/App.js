@@ -1,7 +1,9 @@
+// client/src/App.js
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
 import SignUpPage from './pages/SignUpPage';
-import Game from './pages/Game'; // Wraps Game UI (RoomForm, GameBoard, GameStatus)
+import Game from './pages/Game';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App({ socket }) {
   return (
@@ -9,7 +11,14 @@ function App({ socket }) {
       <Routes>
         <Route path="/" element={<AuthPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/game" element={<Game socket={socket} />} />
+        <Route
+          path="/game"
+          element={
+            <ProtectedRoute>
+              <Game socket={socket} />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
