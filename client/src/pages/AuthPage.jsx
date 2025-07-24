@@ -1,6 +1,7 @@
 // client/src/components/AuthPage.jsx
 import { useState } from 'react';
 import { auth } from '../firebase';
+import { saveUserToFirestore } from '../utils/saveUserToFirestore';
 import {
   signInAnonymously,
   signInWithEmailAndPassword,
@@ -17,22 +18,25 @@ function AuthPage({ onLogin }) {
     try {
       const result = await signInAnonymously(auth);
       onLogin(result.user);
+      await saveUserToFirestore(result.user);
     } catch (err) {
       setError(err.message);
     }
   };
 
-  const handleEmailAuth = async (e) => {
-    e.preventDefault();
-    try {
-      const result = isRegister
-        ? await createUserWithEmailAndPassword(auth, email, password)
-        : await signInWithEmailAndPassword(auth, email, password);
-      onLogin(result.user);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+const handleEmailAuth = async (e) => {
+  e.preventDefault();
+  try {
+    const result = isRegister
+      ? await createUserWithEmailAndPassword(auth, email, password)
+      : await signInWithEmailAndPassword(auth, email, password);
+    await saveUserToFirestore(result.user); // ✅ Add this line
+    onLogin(result.user);
+  } catch (err) {
+    setError(err.message);
+  }
+};
+
 
   return (
     <div style={{ textAlign: 'center' }}>
