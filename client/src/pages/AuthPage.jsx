@@ -7,8 +7,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 function AuthPage({ onLogin }) {
+   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegister, setIsRegister] = useState(false);
@@ -19,6 +21,7 @@ function AuthPage({ onLogin }) {
       const result = await signInAnonymously(auth);
       onLogin(result.user);
       await saveUserToFirestore(result.user);
+      navigate('/game');
     } catch (err) {
       setError(err.message);
     }
@@ -32,6 +35,7 @@ const handleEmailAuth = async (e) => {
       : await signInWithEmailAndPassword(auth, email, password);
     await saveUserToFirestore(result.user); // ✅ Add this line
     onLogin(result.user);
+    navigate('/game');
   } catch (err) {
     setError(err.message);
   }
