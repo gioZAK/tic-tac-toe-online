@@ -1,14 +1,13 @@
 // client/src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import socket from './socket';
-import './styles/App.css'; // Optional if you add styling later
+import socket from './socket'; // ✅ import centralized socket
 
-// You can optionally use Context here in future
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <App socket={socket} />
-  </React.StrictMode>
+  </BrowserRouter>
 );
